@@ -1,4 +1,8 @@
 // Composable for team service data fetching, 30s polling, and derived metrics.
+//
+// Architecture: module-level singleton (no Pinia for v1).
+// State is logically grouped into connection / core / detail.
+// Split into separate modules when multi-page routing is added.
 
 import { ref, computed } from 'vue'
 import {
@@ -17,19 +21,21 @@ import {
 export type ProjectSummary = ProjectSummaryType
 import { relativeTime, freshnessLevel, trieLagLevel } from '../utils/time'
 
-// ─── Reactive state ───────────────────────────────────────────────────────
+// ─── Connection state ─────────────────────────────────────────────────────
 
 export const connected = ref(false)
 export const healthOk = ref(false)
 export const healthError = ref('')
+
+// ─── Core data state (projects, trie, polling) ────────────────────────────
+
 export const projects = ref<ProjectSummary[]>([])
 export const trieRevision = ref(0)
 export const loading = ref(false)
-
-// Core data error (projects / trie revision fetch)
 export const coreError = ref('')
 
-// Expanded project details (lazy-loaded on click)
+// ─── Detail state (expanded project) ──────────────────────────────────────
+
 export const expandedSlug = ref<string | null>(null)
 export const sessions = ref<SessionRecord[]>([])
 export const equivalences = ref<EquivalenceData | null>(null)
