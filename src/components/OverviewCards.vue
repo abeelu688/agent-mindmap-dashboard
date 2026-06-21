@@ -101,11 +101,11 @@ function formatRate(rate: number): string {
 }
 
 .card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 10px;
   padding: 1rem 1.25rem;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-  border-left: 4px solid #e5e7eb;
+  border-left: 4px solid var(--border);
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -113,25 +113,25 @@ function formatRate(rate: number): string {
 }
 
 .card--ok {
-  border-left-color: #22c55e;
+  border-left-color: var(--ok);
 }
 .card--err {
-  border-left-color: #ef4444;
+  border-left-color: var(--err);
 }
 .card--fresh {
-  border-left-color: #22c55e;
+  border-left-color: var(--ok);
 }
 .card--stale {
-  border-left-color: #f59e0b;
+  border-left-color: var(--warn);
 }
 .card--critical {
-  border-left-color: #ef4444;
+  border-left-color: var(--err);
 }
 
 .card-label {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
@@ -147,7 +147,7 @@ function formatRate(rate: number): string {
 
 .card-detail {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--text-muted);
 }
 
 .error-text {
@@ -163,17 +163,17 @@ function formatRate(rate: number): string {
 }
 
 .status-dot--ok {
-  background: #22c55e;
+  background: var(--ok);
   box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
 }
 
 .status-dot--err {
-  background: #ef4444;
+  background: var(--err);
   box-shadow: 0 0 6px rgba(239, 68, 68, 0.4);
 }
 
 .status-dot--loading {
-  background: #9ca3af;
+  background: var(--text-light);
   animation: pulse 1s ease-in-out infinite;
 }
 

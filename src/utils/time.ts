@@ -14,6 +14,9 @@ export function relativeTime(epochMs: number | undefined | null): string {
   const diff = Date.now() - epochMs
   const abs = Math.abs(diff)
 
+  // Future timestamps (clock skew) — show "刚刚" for small skew, date for large
+  if (diff < 0 && abs > MINUTE) return formatDate(epochMs)
+
   if (abs < MINUTE) return '刚刚'
   if (abs < HOUR) {
     const mins = Math.floor(abs / MINUTE)

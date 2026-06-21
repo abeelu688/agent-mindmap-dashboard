@@ -107,7 +107,7 @@ async function handleConnect() {
 }
 
 .form-card {
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 12px;
   padding: 2.5rem;
   width: 100%;
@@ -122,7 +122,7 @@ h1 {
 
 .subtitle {
   margin: 0 0 1.5rem;
-  color: #666;
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 
@@ -135,13 +135,13 @@ label {
   margin-bottom: 0.35rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text);
 }
 
 input {
   width: 100%;
   padding: 0.6rem 0.75rem;
-  border: 1px solid #d0d5dd;
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 0.9rem;
   outline: none;
@@ -150,25 +150,25 @@ input {
 }
 
 input:focus {
-  border-color: #4f46e5;
+  border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
 }
 
 input:disabled {
-  background: #f5f5f5;
+  background: var(--bg);
 }
 
 .hint {
   display: block;
   margin-top: 0.3rem;
   font-size: 0.75rem;
-  color: #999;
+  color: var(--text-light);
 }
 
 .connect-btn {
   width: 100%;
   padding: 0.7rem;
-  background: #4f46e5;
+  background: var(--accent);
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -179,7 +179,7 @@ input:disabled {
 }
 
 .connect-btn:hover:not(:disabled) {
-  background: #4338ca;
+  background: var(--accent-hover);
 }
 
 .connect-btn:disabled {

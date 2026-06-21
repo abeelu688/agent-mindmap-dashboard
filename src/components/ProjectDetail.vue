@@ -85,7 +85,7 @@ function equivGroupCount(): string {
 .detail-loading {
   padding: 1rem;
   text-align: center;
-  color: #9ca3af;
+  color: var(--text-light);
   font-size: 0.9rem;
 }
 
@@ -96,7 +96,7 @@ function equivGroupCount(): string {
 .detail-section h4 {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   margin: 0 0 0.5rem;
@@ -113,7 +113,7 @@ function equivGroupCount(): string {
 }
 
 .detail-empty {
-  color: #9ca3af;
+  color: var(--text-light);
   font-size: 0.85rem;
 }
 
@@ -134,17 +134,17 @@ function equivGroupCount(): string {
 .session-table th {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text-muted);
   text-align: left;
   padding: 0.35rem 0.5rem;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
 }
 
 .session-table td {
   font-size: 0.82rem;
   padding: 0.35rem 0.5rem;
-  border-bottom: 1px solid #f3f4f6;
-  color: #374151;
+  border-bottom: 1px solid var(--bg);
+  color: var(--text);
 }
 
 .monospace {

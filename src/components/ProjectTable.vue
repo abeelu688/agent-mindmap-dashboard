@@ -73,36 +73,40 @@ function lagCellClass(project: ProjectSummary): string {
 .section-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #374151;
+  color: var(--text);
   margin: 0 0 0.75rem;
 }
 
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #9ca3af;
+  color: var(--text-light);
   font-size: 0.95rem;
 }
 
 .project-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: var(--bg-card);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
+.project-table-wrapper {
+  overflow-x: auto;
+}
+
 thead th {
-  background: #f9fafb;
+  background: var(--bg);
   font-size: 0.78rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.03em;
   padding: 0.65rem 0.75rem;
   text-align: left;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
 }
 
 .col-expand {
@@ -125,7 +129,7 @@ thead th {
 }
 
 .project-row:hover {
-  background: #f3f4f6;
+  background: var(--bg);
 }
 
 .project-row--expanded {
@@ -134,9 +138,9 @@ thead th {
 
 .project-row td {
   padding: 0.6rem 0.75rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid var(--bg);
   font-size: 0.88rem;
-  color: #374151;
+  color: var(--text);
 }
 
 .col-num {
@@ -145,27 +149,27 @@ thead th {
 }
 
 .expand-icon {
-  color: #9ca3af;
+  color: var(--text-light);
   font-size: 0.8rem;
 }
 
 /* Trie lag coloring */
 .lag-ok {
-  color: #22c55e;
+  color: var(--ok);
   font-weight: 600;
 }
 .lag-warning {
-  color: #f59e0b;
+  color: var(--warn);
   font-weight: 600;
 }
 .lag-critical {
-  color: #ef4444;
+  color: var(--err);
   font-weight: 700;
 }
 
 .detail-row td {
   padding: 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border);
   background: #f8faff;
 }
 </style>
