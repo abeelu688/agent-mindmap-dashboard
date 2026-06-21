@@ -83,11 +83,13 @@ export function getLastRequestDuration(): number {
   return lastRequestDuration
 }
 
+const DEFAULT_TIMEOUT_MS = 10_000
+
 async function request<T>(
   path: string,
-  options: { auth?: boolean; method?: string; body?: unknown } = {},
+  options: { auth?: boolean; method?: string; body?: unknown; timeout?: number } = {},
 ): Promise<T> {
-  const { auth = true, method = 'GET', body } = options
+  const { auth = true, method = 'GET', body, timeout = DEFAULT_TIMEOUT_MS } = options
   const serverUrl = getServerUrl()
   const url = serverUrl ? `${serverUrl}${path}` : path
 
@@ -101,12 +103,27 @@ async function request<T>(
     headers['Content-Type'] = 'application/json'
   }
 
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeout)
+
   const start = performance.now()
-  const res = await fetch(url, {
-    method,
-    headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  })
+  let res: Response
+  try {
+    res = await fetch(url, {
+      method,
+      headers,
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+      signal: controller.signal,
+    })
+  } catch (err) {
+    if ((err as Error).name === 'AbortError') {
+      const apiErr: ApiError = { status: 0, message: `请求超时 (${timeout}ms)` }
+      throw apiErr
+    }
+    throw err
+  } finally {
+    clearTimeout(timer)
+  }
   lastRequestDuration = performance.now() - start
 
   if (!res.ok) {
