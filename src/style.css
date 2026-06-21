@@ -62,6 +62,14 @@ body {
   font-weight: 700;
   margin: 0;
   color: #111827;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dashboard-header h1 .logo {
+  width: 24px;
+  height: 24px;
 }
 
 .header-actions {

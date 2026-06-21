@@ -60,7 +60,7 @@ async function handleConnect() {
 <template>
   <div class="connection-form">
     <div class="form-card">
-      <h1>🧠 Agent Mind Map</h1>
+      <h1><img src="/icon.png" alt="" class="logo" /> Agent Mind Map</h1>
       <p class="subtitle">Team Dashboard</p>
 
       <div class="field">
@@ -118,6 +118,14 @@ async function handleConnect() {
 h1 {
   margin: 0 0 0.25rem;
   font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
 }
 
 .subtitle {

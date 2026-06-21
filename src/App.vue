@@ -39,7 +39,7 @@ onUnmounted(() => {
 
   <div v-else class="dashboard">
     <header class="dashboard-header">
-      <h1>🧠 Agent Mind Map — Team Dashboard</h1>
+      <h1><img src="/icon.png" alt="" class="logo" /> Agent Mind Map — Team Dashboard</h1>
       <div class="header-actions">
         <span class="connection-badge" :class="{ 'connection-badge--err': !healthOk }">
           <span class="status-dot" :class="healthOk ? 'status-dot--ok' : 'status-dot--err'" />
