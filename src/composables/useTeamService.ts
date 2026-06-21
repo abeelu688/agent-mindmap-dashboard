@@ -1,6 +1,6 @@
 // Composable for team service data fetching, 30s polling, and derived metrics.
 
-import { ref, computed, onUnmounted } from 'vue'
+import { ref, computed } from 'vue'
 import {
   fetchHealth,
   fetchProjects,
@@ -123,6 +123,7 @@ async function loadProjectDetail(slug: string): Promise<void> {
 // ─── Public API ───────────────────────────────────────────────────────────
 
 export function startPolling(): void {
+  stopPolling()
   connected.value = true
   loading.value = true
   refreshCore().finally(() => { loading.value = false })
@@ -162,8 +163,3 @@ export function toggleExpand(slug: string): void {
     loadProjectDetail(slug)
   }
 }
-
-// Auto-cleanup on component unmount
-onUnmounted(() => {
-  stopPolling()
-})

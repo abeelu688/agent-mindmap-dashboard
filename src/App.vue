@@ -1,13 +1,17 @@
 <script setup lang="ts">
-import { connected, healthOk, disconnect } from './composables/useTeamService'
+import { onUnmounted } from 'vue'
+import { connected, healthOk, disconnect, startPolling, stopPolling } from './composables/useTeamService'
 import ConnectionForm from './components/ConnectionForm.vue'
 import OverviewCards from './components/OverviewCards.vue'
 import ProjectTable from './components/ProjectTable.vue'
-import { startPolling } from './composables/useTeamService'
 
 function onConnected() {
   startPolling()
 }
+
+onUnmounted(() => {
+  stopPolling()
+})
 </script>
 
 <template>
