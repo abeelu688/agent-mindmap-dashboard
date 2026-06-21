@@ -83,6 +83,42 @@ export function getLastRequestDuration(): number {
   return lastRequestDuration
 }
 
+// ─── Latency / error tracking (sliding window of last 20 requests) ───────
+
+const WINDOW_SIZE = 20
+const latencyWindow: number[] = []
+let errorCount = 0
+let totalRequests = 0
+
+function recordLatency(ms: number): void {
+  latencyWindow.push(ms)
+  if (latencyWindow.length > WINDOW_SIZE) latencyWindow.shift()
+  totalRequests++
+}
+
+function recordError(): void {
+  errorCount++
+  totalRequests++
+}
+
+export interface LatencyMetrics {
+  p50: number
+  p99: number
+  errorRate: number
+  totalRequests: number
+}
+
+export function getLatencyMetrics(): LatencyMetrics {
+  if (latencyWindow.length === 0) {
+    return { p50: 0, p99: 0, errorRate: 0, totalRequests: 0 }
+  }
+  const sorted = [...latencyWindow].sort((a, b) => a - b)
+  const p50 = sorted[Math.floor(sorted.length * 0.5)]
+  const p99 = sorted[Math.floor(sorted.length * 0.99)]
+  const errorRate = totalRequests > 0 ? errorCount / totalRequests : 0
+  return { p50, p99, errorRate, totalRequests }
+}
+
 const DEFAULT_TIMEOUT_MS = 10_000
 
 async function request<T>(
@@ -117,16 +153,20 @@ async function request<T>(
     })
   } catch (err) {
     if ((err as Error).name === 'AbortError') {
+      recordError()
       const apiErr: ApiError = { status: 0, message: `请求超时 (${timeout}ms)` }
       throw apiErr
     }
+    recordError()
     throw err
   } finally {
     clearTimeout(timer)
   }
   lastRequestDuration = performance.now() - start
+  recordLatency(lastRequestDuration)
 
   if (!res.ok) {
+    recordError()
     let message = `HTTP ${res.status}`
     try {
       const errBody = await res.json()

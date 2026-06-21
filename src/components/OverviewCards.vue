@@ -9,6 +9,20 @@ import {
   freshnessClass,
   loading,
 } from '../composables/useTeamService'
+import { getLatencyMetrics } from '../api/client'
+import { computed } from 'vue'
+
+const metrics = computed(() => getLatencyMetrics())
+
+function formatMs(ms: number): string {
+  if (ms === 0) return '—'
+  return ms < 1000 ? `${Math.round(ms)}ms` : `${(ms / 1000).toFixed(1)}s`
+}
+
+function formatRate(rate: number): string {
+  if (rate === 0) return '0%'
+  return `${(rate * 100).toFixed(0)}%`
+}
 </script>
 
 <template>
@@ -54,6 +68,26 @@ import {
     >
       <span class="card-label">数据新鲜度</span>
       <span class="card-value">{{ loading ? '—' : freshnessLabel }}</span>
+    </div>
+
+    <!-- API latency -->
+    <div class="card">
+      <span class="card-label">API 延迟</span>
+      <span class="card-value">{{ formatMs(metrics.p50) }}</span>
+      <span class="card-detail">P50 / P99 {{ formatMs(metrics.p99) }}</span>
+    </div>
+
+    <!-- Error rate -->
+    <div
+      class="card"
+      :class="{
+        'card--ok': metrics.errorRate === 0 && metrics.totalRequests > 0,
+        'card--err': metrics.errorRate > 0,
+      }"
+    >
+      <span class="card-label">错误率</span>
+      <span class="card-value">{{ formatRate(metrics.errorRate) }}</span>
+      <span class="card-detail">{{ metrics.totalRequests }} 请求</span>
     </div>
   </div>
 </template>
