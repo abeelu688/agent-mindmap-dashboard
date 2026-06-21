@@ -14,7 +14,7 @@ export interface ProjectSummary {
   revision: number
   recordCount: number
   lastAnalyzedAt?: number // epoch millis, 0 = never
-  lastBuiltAt: number     // epoch millis
+  lastBuiltAt: number // epoch millis
 }
 
 export interface ConceptTrieRevision {
@@ -94,7 +94,7 @@ async function request<T>(
   const url = serverUrl ? `${serverUrl}${path}` : path
 
   const headers: Record<string, string> = {
-    'Accept': 'application/json',
+    Accept: 'application/json',
   }
   if (auth) {
     headers['Authorization'] = `Bearer ${getApiKey()}`
@@ -194,7 +194,10 @@ export async function fetchTrieRevision(): Promise<ConceptTrieRevision> {
 export async function fetchProjectRevision(slug: string): Promise<RevisionResponse> {
   const data = await request<unknown>(`/v1/projects/${encodeURIComponent(slug)}/revision`)
   if (typeof data !== 'object' || data === null) {
-    const apiErr: ApiError = { status: 0, message: 'API 返回数据格式错误：project revision 应为对象' }
+    const apiErr: ApiError = {
+      status: 0,
+      message: 'API 返回数据格式错误：project revision 应为对象',
+    }
     throw apiErr
   }
   const obj = data as Record<string, unknown>

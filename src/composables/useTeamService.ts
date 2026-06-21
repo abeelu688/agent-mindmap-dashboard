@@ -97,10 +97,7 @@ async function refreshCore(): Promise<void> {
 
   // Fetch projects + trie revision in parallel
   try {
-    const [projData, trieData] = await Promise.all([
-      fetchProjects(),
-      fetchTrieRevision(),
-    ])
+    const [projData, trieData] = await Promise.all([fetchProjects(), fetchTrieRevision()])
     projects.value = projData
     trieRevision.value = trieData.revision
     coreError.value = ''
@@ -119,10 +116,7 @@ async function loadProjectDetail(slug: string): Promise<void> {
   detailLoading.value = true
   detailError.value = ''
   try {
-    const [sess, equiv] = await Promise.all([
-      fetchSessions(slug),
-      fetchEquivalences(slug),
-    ])
+    const [sess, equiv] = await Promise.all([fetchSessions(slug), fetchEquivalences(slug)])
     sessions.value = sess
     equivalences.value = equiv
   } catch (err) {
@@ -139,7 +133,9 @@ export function startPolling(): void {
   stopPolling()
   connected.value = true
   loading.value = true
-  refreshCore().finally(() => { loading.value = false })
+  refreshCore().finally(() => {
+    loading.value = false
+  })
 
   pollTimer = setInterval(() => {
     refreshCore()

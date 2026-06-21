@@ -44,7 +44,14 @@ import {
     </div>
 
     <!-- Data freshness -->
-    <div class="card" :class="{ 'card--fresh': freshnessClass === 'fresh', 'card--stale': freshnessClass === 'stale', 'card--critical': freshnessClass === 'critical' }">
+    <div
+      class="card"
+      :class="{
+        'card--fresh': freshnessClass === 'fresh',
+        'card--stale': freshnessClass === 'stale',
+        'card--critical': freshnessClass === 'critical',
+      }"
+    >
       <span class="card-label">数据新鲜度</span>
       <span class="card-value">{{ loading ? '—' : freshnessLabel }}</span>
     </div>
@@ -71,11 +78,21 @@ import {
   transition: border-color 0.2s;
 }
 
-.card--ok { border-left-color: #22c55e; }
-.card--err { border-left-color: #ef4444; }
-.card--fresh { border-left-color: #22c55e; }
-.card--stale { border-left-color: #f59e0b; }
-.card--critical { border-left-color: #ef4444; }
+.card--ok {
+  border-left-color: #22c55e;
+}
+.card--err {
+  border-left-color: #ef4444;
+}
+.card--fresh {
+  border-left-color: #22c55e;
+}
+.card--stale {
+  border-left-color: #f59e0b;
+}
+.card--critical {
+  border-left-color: #ef4444;
+}
 
 .card-label {
   font-size: 0.8rem;
@@ -127,7 +144,12 @@ import {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 </style>

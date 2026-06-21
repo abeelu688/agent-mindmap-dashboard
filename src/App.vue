@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue'
-import { connected, healthOk, coreError, disconnect, startPolling, stopPolling } from './composables/useTeamService'
+import {
+  connected,
+  healthOk,
+  coreError,
+  disconnect,
+  startPolling,
+  stopPolling,
+} from './composables/useTeamService'
 import { getApiKey, fetchHealth, fetchProjects } from './api/client'
 import ConnectionForm from './components/ConnectionForm.vue'
 import OverviewCards from './components/OverviewCards.vue'
@@ -42,9 +49,7 @@ onUnmounted(() => {
       </div>
     </header>
 
-    <div v-if="coreError" class="error-banner">
-      ⚠️ {{ coreError }}
-    </div>
+    <div v-if="coreError" class="error-banner">⚠️ {{ coreError }}</div>
 
     <OverviewCards />
     <ProjectTable />

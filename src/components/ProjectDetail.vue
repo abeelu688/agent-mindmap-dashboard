@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  sessions,
-  equivalences,
-  detailLoading,
-  detailError,
-} from '../composables/useTeamService'
+import { sessions, equivalences, detailLoading, detailError } from '../composables/useTeamService'
 import { formatDate } from '../utils/time'
 
 defineProps<{

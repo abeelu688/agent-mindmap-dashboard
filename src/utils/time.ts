@@ -43,7 +43,9 @@ export function formatDate(epochMs: number | undefined | null): string {
  * Classify data freshness based on how long since lastAnalyzedAt.
  * Returns 'fresh' | 'stale' | 'critical' | 'none'
  */
-export function freshnessLevel(epochMs: number | undefined | null): 'fresh' | 'stale' | 'critical' | 'none' {
+export function freshnessLevel(
+  epochMs: number | undefined | null,
+): 'fresh' | 'stale' | 'critical' | 'none' {
   if (!epochMs) return 'none'
   const diff = Date.now() - epochMs
   if (diff < HOUR) return 'fresh'

@@ -46,7 +46,9 @@ function lagCellClass(project: ProjectSummary): string {
             @click="toggleExpand(project.projectSlug)"
           >
             <td class="col-expand">
-              <span class="expand-icon">{{ expandedSlug === project.projectSlug ? '▾' : '▸' }}</span>
+              <span class="expand-icon">{{
+                expandedSlug === project.projectSlug ? '▾' : '▸'
+              }}</span>
             </td>
             <td class="col-slug">{{ project.projectSlug }}</td>
             <td class="col-num">{{ project.recordCount }}</td>
@@ -103,10 +105,19 @@ thead th {
   border-bottom: 1px solid #e5e7eb;
 }
 
-.col-expand { width: 32px; }
-.col-slug { min-width: 140px; }
-.col-num { width: 90px; text-align: right; }
-.col-time { width: 120px; }
+.col-expand {
+  width: 32px;
+}
+.col-slug {
+  min-width: 140px;
+}
+.col-num {
+  width: 90px;
+  text-align: right;
+}
+.col-time {
+  width: 120px;
+}
 
 .project-row {
   cursor: pointer;
@@ -139,9 +150,18 @@ thead th {
 }
 
 /* Trie lag coloring */
-.lag-ok { color: #22c55e; font-weight: 600; }
-.lag-warning { color: #f59e0b; font-weight: 600; }
-.lag-critical { color: #ef4444; font-weight: 700; }
+.lag-ok {
+  color: #22c55e;
+  font-weight: 600;
+}
+.lag-warning {
+  color: #f59e0b;
+  font-weight: 600;
+}
+.lag-critical {
+  color: #ef4444;
+  font-weight: 700;
+}
 
 .detail-row td {
   padding: 0;

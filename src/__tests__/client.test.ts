@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { ApiError } from '../api/client'
+import type { ApiError } from '../api/client'
 
 // Unit tests for API error shape — the runtime validation functions
 // are tested indirectly through integration; here we verify the type.
