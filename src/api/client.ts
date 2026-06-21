@@ -219,9 +219,10 @@ export async function fetchHealth(): Promise<string> {
   return request<string>('/healthz', { auth: false })
 }
 
-/** GET /v1/projects */
+/** GET /v1/projects — null (Go nil slice) treated as empty array */
 export async function fetchProjects(): Promise<ProjectSummary[]> {
   const data = await request<unknown>('/v1/projects')
+  if (data === null || data === undefined) return []
   expectArray(data, 'projects')
   return data as ProjectSummary[]
 }
@@ -254,11 +255,12 @@ export async function fetchProjectRevision(slug: string): Promise<RevisionRespon
   return data as RevisionResponse
 }
 
-/** GET /v1/projects/:slug/sessions?limit=N */
+/** GET /v1/projects/:slug/sessions?limit=N — null (Go nil slice) treated as empty */
 export async function fetchSessions(slug: string, limit = 20): Promise<SessionRecord[]> {
   const data = await request<unknown>(
     `/v1/projects/${encodeURIComponent(slug)}/sessions?limit=${limit}`,
   )
+  if (data === null || data === undefined) return []
   expectArray(data, 'sessions')
   return data as SessionRecord[]
 }
