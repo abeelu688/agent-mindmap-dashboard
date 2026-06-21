@@ -66,8 +66,10 @@ export function trieLagClass(project: ProjectSummary): string {
 
 export function trieLagLabel(project: ProjectSummary): string {
   const lag = trieLag(project)
-  if (lag <= 0) return '0'
-  return `⚠️ ${lag}`
+  const level = trieLagLevel(lag)
+  if (level === 'ok') return `${lag}`
+  if (level === 'warning') return `⚠️ ${lag}`
+  return `🔴 ${lag}`
 }
 
 // ─── Data fetching ────────────────────────────────────────────────────────

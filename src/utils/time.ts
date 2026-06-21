@@ -53,10 +53,11 @@ export function freshnessLevel(epochMs: number | undefined | null): 'fresh' | 's
 
 /**
  * Classify trie lag based on the difference between project revision and trie revision.
+ * Spec: lag <= 5 → ok, 5 < lag <= 20 → warning, lag > 20 → critical
  * Returns 'ok' | 'warning' | 'critical'
  */
 export function trieLagLevel(lag: number): 'ok' | 'warning' | 'critical' {
-  if (lag <= 0) return 'ok'
-  if (lag <= 5) return 'warning'
+  if (lag <= 5) return 'ok'
+  if (lag <= 20) return 'warning'
   return 'critical'
 }
