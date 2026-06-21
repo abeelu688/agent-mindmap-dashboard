@@ -191,7 +191,11 @@ async function request<T>(
 /** Validate that a value is an array; throw ApiError if not. */
 function expectArray(data: unknown, label: string): asserts data is unknown[] {
   if (!Array.isArray(data)) {
-    const apiErr: ApiError = { status: 0, message: `API 返回数据格式错误：${label} 应为数组` }
+    const actual = data === null ? 'null' : typeof data
+    const apiErr: ApiError = {
+      status: 0,
+      message: `API 返回数据格式错误：${label} 应为数组，实际为 ${actual}`,
+    }
     throw apiErr
   }
 }
@@ -199,7 +203,11 @@ function expectArray(data: unknown, label: string): asserts data is unknown[] {
 /** Validate that a value is a number; throw ApiError if not. */
 function expectNumber(data: unknown, label: string): asserts data is number {
   if (typeof data !== 'number') {
-    const apiErr: ApiError = { status: 0, message: `API 返回数据格式错误：${label} 应为数字` }
+    const actual = data === null ? 'null' : typeof data
+    const apiErr: ApiError = {
+      status: 0,
+      message: `API 返回数据格式错误：${label} 应为数字，实际为 ${actual}`,
+    }
     throw apiErr
   }
 }
