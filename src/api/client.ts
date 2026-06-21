@@ -146,6 +146,24 @@ async function request<T>(
   return (await res.text()) as unknown as T
 }
 
+// ─── Runtime validation helpers ────────────────────────────────────────────
+
+/** Validate that a value is an array; throw ApiError if not. */
+function expectArray(data: unknown, label: string): asserts data is unknown[] {
+  if (!Array.isArray(data)) {
+    const apiErr: ApiError = { status: 0, message: `API 返回数据格式错误：${label} 应为数组` }
+    throw apiErr
+  }
+}
+
+/** Validate that a value is a number; throw ApiError if not. */
+function expectNumber(data: unknown, label: string): asserts data is number {
+  if (typeof data !== 'number') {
+    const apiErr: ApiError = { status: 0, message: `API 返回数据格式错误：${label} 应为数字` }
+    throw apiErr
+  }
+}
+
 // ─── API methods ──────────────────────────────────────────────────────────
 
 /** GET /healthz — no auth required */
@@ -155,32 +173,54 @@ export async function fetchHealth(): Promise<string> {
 
 /** GET /v1/projects */
 export async function fetchProjects(): Promise<ProjectSummary[]> {
-  const data = await request<ProjectSummary[]>('/v1/projects')
-  return data || []
+  const data = await request<unknown>('/v1/projects')
+  expectArray(data, 'projects')
+  return data as ProjectSummary[]
 }
 
 /** GET /v1/merges/concept-trie/revision */
 export async function fetchTrieRevision(): Promise<ConceptTrieRevision> {
-  return request<ConceptTrieRevision>('/v1/merges/concept-trie/revision')
+  const data = await request<unknown>('/v1/merges/concept-trie/revision')
+  if (typeof data !== 'object' || data === null) {
+    const apiErr: ApiError = { status: 0, message: 'API 返回数据格式错误：trie revision 应为对象' }
+    throw apiErr
+  }
+  const obj = data as Record<string, unknown>
+  expectNumber(obj.revision, 'revision')
+  return data as ConceptTrieRevision
 }
 
 /** GET /v1/projects/:slug/revision */
 export async function fetchProjectRevision(slug: string): Promise<RevisionResponse> {
-  return request<RevisionResponse>(`/v1/projects/${encodeURIComponent(slug)}/revision`)
+  const data = await request<unknown>(`/v1/projects/${encodeURIComponent(slug)}/revision`)
+  if (typeof data !== 'object' || data === null) {
+    const apiErr: ApiError = { status: 0, message: 'API 返回数据格式错误：project revision 应为对象' }
+    throw apiErr
+  }
+  const obj = data as Record<string, unknown>
+  expectNumber(obj.revision, 'revision')
+  expectNumber(obj.recordCount, 'recordCount')
+  return data as RevisionResponse
 }
 
 /** GET /v1/projects/:slug/sessions?limit=N */
 export async function fetchSessions(slug: string, limit = 20): Promise<SessionRecord[]> {
-  const data = await request<SessionRecord[]>(
+  const data = await request<unknown>(
     `/v1/projects/${encodeURIComponent(slug)}/sessions?limit=${limit}`,
   )
-  return data || []
+  expectArray(data, 'sessions')
+  return data as SessionRecord[]
 }
 
 /** GET /v1/projects/:slug/equivalences */
 export async function fetchEquivalences(slug: string): Promise<EquivalenceData | null> {
   try {
-    return await request<EquivalenceData>(`/v1/projects/${encodeURIComponent(slug)}/equivalences`)
+    const data = await request<unknown>(`/v1/projects/${encodeURIComponent(slug)}/equivalences`)
+    if (typeof data !== 'object' || data === null) {
+      const apiErr: ApiError = { status: 0, message: 'API 返回数据格式错误：equivalences 应为对象' }
+      throw apiErr
+    }
+    return data as EquivalenceData
   } catch (err) {
     // 404 means no equivalences for this project — not an error
     if ((err as ApiError).status === 404) return null
