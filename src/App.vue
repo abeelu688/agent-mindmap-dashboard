@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onUnmounted } from 'vue'
-import { connected, healthOk, disconnect, startPolling, stopPolling } from './composables/useTeamService'
+import { connected, healthOk, coreError, disconnect, startPolling, stopPolling } from './composables/useTeamService'
 import ConnectionForm from './components/ConnectionForm.vue'
 import OverviewCards from './components/OverviewCards.vue'
 import ProjectTable from './components/ProjectTable.vue'
@@ -29,6 +29,10 @@ onUnmounted(() => {
       </div>
     </header>
 
+    <div v-if="coreError" class="error-banner">
+      ⚠️ {{ coreError }}
+    </div>
+
     <OverviewCards />
     <ProjectTable />
   </div>
@@ -50,5 +54,14 @@ onUnmounted(() => {
 .status-dot--err {
   background: var(--err);
   box-shadow: 0 0 4px rgba(239, 68, 68, 0.4);
+}
+
+.error-banner {
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+  background: #fef2f2;
+  color: #b91c1c;
+  border-radius: 6px;
+  font-size: 0.85rem;
 }
 </style>

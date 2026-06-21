@@ -26,11 +26,15 @@ export const projects = ref<ProjectSummary[]>([])
 export const trieRevision = ref(0)
 export const loading = ref(false)
 
+// Core data error (projects / trie revision fetch)
+export const coreError = ref('')
+
 // Expanded project details (lazy-loaded on click)
 export const expandedSlug = ref<string | null>(null)
 export const sessions = ref<SessionRecord[]>([])
 export const equivalences = ref<EquivalenceData | null>(null)
 export const detailLoading = ref(false)
+export const detailError = ref('')
 
 let pollTimer: ReturnType<typeof setInterval> | null = null
 const POLL_INTERVAL = 30_000
@@ -99,13 +103,21 @@ async function refreshCore(): Promise<void> {
     ])
     projects.value = projData
     trieRevision.value = trieData.revision
-  } catch {
-    // Individual fetch failures are tolerated; stale data stays displayed
+    coreError.value = ''
+  } catch (err) {
+    const apiErr = err as { status?: number; message?: string }
+    if (apiErr.status === 401) {
+      disconnect()
+      return
+    }
+    // Keep stale data, show error banner
+    coreError.value = apiErr.message || '数据加载失败'
   }
 }
 
 async function loadProjectDetail(slug: string): Promise<void> {
   detailLoading.value = true
+  detailError.value = ''
   try {
     const [sess, equiv] = await Promise.all([
       fetchSessions(slug),
@@ -113,8 +125,9 @@ async function loadProjectDetail(slug: string): Promise<void> {
     ])
     sessions.value = sess
     equivalences.value = equiv
-  } catch {
-    // Show whatever we got
+  } catch (err) {
+    const apiErr = err as { status?: number; message?: string }
+    detailError.value = apiErr.message || '详情加载失败'
   } finally {
     detailLoading.value = false
   }
@@ -145,11 +158,13 @@ export function disconnect(): void {
   connected.value = false
   healthOk.value = false
   healthError.value = ''
+  coreError.value = ''
   projects.value = []
   trieRevision.value = 0
   expandedSlug.value = null
   sessions.value = []
   equivalences.value = null
+  detailError.value = ''
   clearConnection()
 }
 

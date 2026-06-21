@@ -3,6 +3,7 @@ import {
   sessions,
   equivalences,
   detailLoading,
+  detailError,
 } from '../composables/useTeamService'
 import { formatDate } from '../utils/time'
 
@@ -51,6 +52,7 @@ function equivGroupCount(): string {
     <div v-if="detailLoading" class="detail-loading">加载中…</div>
 
     <template v-else>
+      <div v-if="detailError" class="detail-error">⚠️ {{ detailError }}</div>
       <!-- Equivalences status -->
       <div class="detail-section">
         <h4>Equivalences</h4>
@@ -118,6 +120,15 @@ function equivGroupCount(): string {
 .detail-empty {
   color: #9ca3af;
   font-size: 0.85rem;
+}
+
+.detail-error {
+  padding: 0.4rem 0.6rem;
+  margin-bottom: 0.75rem;
+  background: #fef2f2;
+  color: #b91c1c;
+  border-radius: 4px;
+  font-size: 0.82rem;
 }
 
 .session-table {
