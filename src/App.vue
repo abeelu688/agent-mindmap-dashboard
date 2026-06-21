@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onUnmounted } from 'vue'
+import { onMounted, onUnmounted } from 'vue'
 import { connected, healthOk, coreError, disconnect, startPolling, stopPolling } from './composables/useTeamService'
+import { getApiKey, fetchHealth, fetchProjects } from './api/client'
 import ConnectionForm from './components/ConnectionForm.vue'
 import OverviewCards from './components/OverviewCards.vue'
 import ProjectTable from './components/ProjectTable.vue'
@@ -8,6 +9,18 @@ import ProjectTable from './components/ProjectTable.vue'
 function onConnected() {
   startPolling()
 }
+
+onMounted(async () => {
+  const savedKey = getApiKey()
+  if (!savedKey) return
+  try {
+    await fetchHealth()
+    await fetchProjects()
+    startPolling()
+  } catch {
+    // Auto-restore failed — stay on connection form with prefilled values
+  }
+})
 
 onUnmounted(() => {
   stopPolling()
