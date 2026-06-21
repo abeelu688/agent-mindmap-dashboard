@@ -5,9 +5,10 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [vue()],
   server: {
+    host: '0.0.0.0',
     proxy: {
-      '/v1': 'http://localhost:8080',
-      '/healthz': 'http://localhost:8080',
+      '/v1': process.env.VITE_TEAM_SERVICE_PROXY_TARGET || 'http://localhost:8080',
+      '/healthz': process.env.VITE_TEAM_SERVICE_PROXY_TARGET || 'http://localhost:8080',
     },
   },
 })
