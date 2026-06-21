@@ -6,6 +6,7 @@ import {
   getApiKey,
   setApiKey,
   fetchHealth,
+  fetchProjects,
 } from '../api/client'
 
 const serverUrl = ref('')
@@ -29,10 +30,16 @@ async function handleConnect() {
   error.value = ''
   connecting.value = true
   try {
-    // Temporarily set values so fetchHealth can use them
+    // Temporarily set values so fetch helpers can use them
     setServerUrl(serverUrl.value.trim())
     setApiKey(apiKey.value.trim())
+
+    // Step 1: health check (unauthenticated)
     await fetchHealth()
+
+    // Step 2: authenticated check — verify API key works
+    await fetchProjects()
+
     emit('connected')
   } catch (err: unknown) {
     const apiErr = err as { status?: number; message?: string }
