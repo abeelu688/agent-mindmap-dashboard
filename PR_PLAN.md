@@ -7,7 +7,7 @@
 
 ---
 
-## D1 — 项目脚手架 ⬜
+## D1 — 项目脚手架 ✅
 
 - `npm create vite@latest . -- --template vue-ts` 初始化
 - 配置 `vite.config.ts`：开发代理 `/v1` → `http://localhost:8080`，`/healthz` → 同
@@ -15,7 +15,7 @@
 - `.gitignore`，`README.md`
 - 验证：`npm run dev` 能启动，`npm run build` 能通过
 
-## D2 — API client ⬜
+## D2 — API client ✅
 
 - `src/api/client.ts`：封装 `fetch`
   - 从 `localStorage` 读取 serverUrl + apiKey
@@ -25,7 +25,7 @@
 - 类型定义：`ProjectSummary`，`SearchHit` 等与 team-service API 对齐
 - 验证：手动在控制台调用 client 能拿到数据
 
-## D3 — 连接配置组件 ⬜
+## D3 — 连接配置组件 ✅
 
 - `src/components/ConnectionForm.vue`：Server URL + API Key 输入 + 连接按钮
 - 连接逻辑：`GET /healthz` 验证连通性
@@ -33,7 +33,7 @@
 - 断线检测：轮询失败时显示重连提示，保留配置
 - 验证：输入错误 key → 401 提示；正确 key → 进入 dashboard
 
-## D4 — 数据获取 composable ⬜
+## D4 — 数据获取 composable ✅
 
 - `src/composables/useTeamService.ts`：
   - `fetchHealth()`：`GET /healthz`
@@ -47,7 +47,7 @@
 - `src/utils/time.ts`：时间格式化（相对时间，中文友好："5 分钟前"）
 - 验证：composable 返回正确的响应式数据
 
-## D5 — 总览卡片组件 ⬜
+## D5 — 总览卡片组件 ✅
 
 - `src/components/OverviewCards.vue`：5 个统计卡片
   - 服务状态（● 绿/红）
@@ -58,7 +58,7 @@
 - 卡片样式：阴影、状态色标
 - 验证：连接后卡片显示正确数值
 
-## D6 — 项目列表 + 知识库构建状态 ⬜
+## D6 — 项目列表 + 知识库构建状态 ✅
 
 - `src/components/ProjectTable.vue`：项目列表表格
   - 列：Slug、会话数、项目 Rev、Trie 滞后、最后分析时间
@@ -69,7 +69,7 @@
   - Equivalences 状态（有数据显示 group 数量，无显示 "—"）
 - 验证：点击项目行展开，看到会话列表和 equivalences
 
-## D7 — 样式打磨 ⬜
+## D7 — 样式打磨 ✅
 
 - 全局样式 `src/style.css`：现代简洁风格
 - 加载状态（skeleton / spinner）
